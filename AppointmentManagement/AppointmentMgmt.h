@@ -20,17 +20,22 @@
 #include <string.h>
 #include <stdlib.h>
 #include "DoctorManagement.h"
+#include "BookAppointment.h"
+#include "ViewAppointment.h"
+#include "EditAppointment.h"
+#include "CancelAppointment.h"
+
 
 #define MAX_APPOINTMENTS 100
 
 /* ---- Appointment struct (Unit 8) ---- */
-struct Appointment {
+typdef struct {
     char appointmentID[8];
     char patientName[50];
     char doctorName[50];
     char date[11];
-    char status[20];   /* Scheduled | Cancelled | Completed */
-};
+    char status[20];   /* Scheduled 9 | Cancelled | Completed */
+}  Appointment ;
 
 /* ===========================================================
    FILE I/O  (Unit 9)
