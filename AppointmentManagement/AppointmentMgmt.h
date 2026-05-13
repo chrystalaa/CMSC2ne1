@@ -20,6 +20,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include "DoctorManagement.h"
+#include "QueueManagement.h"
+
 #include "BookAppointment.h"
 #include "ViewAppointment.h"
 #include "EditAppointment.h"
@@ -29,12 +31,13 @@
 #define MAX_APPOINTMENTS 100
 
 /* ---- Appointment struct (Unit 8) ---- */
-typdef struct {
+typedef struct {
     char appointmentID[8];
     char patientName[50];
     char doctorName[50];
     char date[11];
-    char status[20];   /* Scheduled 9 | Cancelled | Completed */
+    char status[15];   /* Scheduled | Cancelled | Completed | Missed */
+    char type[20]; /* Pregnant | Senior | PWD | Regular */
 }  Appointment ;
 
 /* ===========================================================
@@ -42,21 +45,21 @@ typdef struct {
    =========================================================== */
 
 /* Overwrite appointments.txt with the current in-memory array */
-static inline void saveAppointments(struct Appointment *appts, int total) {
+static inline void saveAppointments(Appointment *appts, int total) {
     FILE *fp = fopen("appointments.txt", "w");
     if (!fp) { printf("Error saving appointments.\n"); return; }
 
     for (int i = 0; i < total; i++)
-        fprintf(fp, "%s|%s|%s|%s|%s\n",
+        fprintf(fp, "%s|%s|%s|%s|%s|%s\n",
                 appts[i].appointmentID, appts[i].patientName,
                 appts[i].doctorName,    appts[i].date,
-                appts[i].status);
+                appts[i].status,        appts[i].type);
 
     fclose(fp);
 }
 
 /* Load appointments from file; returns count. Opens with "a+" to create if missing */
-static inline int loadAppointments(struct Appointment *appts) {
+static inline int loadAppointments(Appointment *appts) {
     FILE *fp = fopen("appointments.txt", "a+");  /* create if not exists */
     if (!fp) return 0;
     rewind(fp);
@@ -65,13 +68,13 @@ static inline int loadAppointments(struct Appointment *appts) {
     char line[300];
 
     while (fgets(line, sizeof(line), fp) && total < MAX_APPOINTMENTS) {
-        if (line[0] == '\n' || line[0] == '\r') continue;  /* skip blank lines */
-        if (sscanf(line, "%7[^|]|%49[^|]|%49[^|]|%10[^|]|%19[^\n]",
-                   appts[total].appointmentID,
-                   appts[total].patientName,
-                   appts[total].doctorName,
-                   appts[total].date,
-                   appts[total].status) == 5)
+        if (line[0] == '\n' || line[0] == '\r'|| line[0] == '\0') 
+            continue;  /* skip blank lines */
+        int result = sscanf(line, "%7[^|]|%49[^|]|%49[^|]|%10[^|]|%14[^|]|%19[^\n]",
+                            appts[total].appointmentID,     appts[total].patientName,
+                            appts[total].doctorName,        appts[total].date,
+                            appts[total].status,            appts[total].type);
+        if (result == 6)
             total++;
     }
 
@@ -87,13 +90,20 @@ static inline int loadAppointments(struct Appointment *appts) {
  * Returns 1 if the given doctor has NO Scheduled appointment on 'date'.
  * Used to prevent double-booking the same doctor on the same day.
  */
-static inline int isDoctorAvailable(struct Appointment *appts, int total,
+static inline int isDoctorAvailable(Appointment *appts, int total,
                                     const char *doctorName, const char *date) {
+    int appt_count = 0;
+
     for (int i = 0; i < total; i++) {
         if (strcmp(appts[i].doctorName, doctorName) == 0 &&
             strcmp(appts[i].date,       date)       == 0 &&
             strcmp(appts[i].status,     "Scheduled") == 0)
-            return 0;   /* already booked */
+            count++; 
+    }
+
+    if (appt_count == 5) {
+        printf("Dr. %s's schedule on this date is full. Please choose another date or doctor.\n", doctorName);
+        return 0;
     }
     return 1;
 }
@@ -217,8 +227,8 @@ static inline void viewAppointments(struct Appointment *appts, int total) {
 
     printf("\n--- View Appointments ---\n");
     printf("1. All\n");
-    printf("2. Upcoming (Scheduled)\n");
-    printf("3. Past (Completed / Cancelled)\n");
+    printf("2. Scheduled\n");
+    printf("3. Completed / Cancelled \n");
     printf("0. Go back\n");
     printf("Select filter: ");
     if (scanf("%d", &opt) != 1) { while (getchar() != '\n'); return; }
