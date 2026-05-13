@@ -20,7 +20,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include "DoctorManagement.h"
-#include "QueueManagement.h"
+#include "QueueManagement.h" // for checking if a patient checked in on the appointment date to mark as Completed or Missed
 
 #include "BookAppointment.h"
 #include "ViewAppointment.h"
@@ -30,7 +30,7 @@
 
 #define MAX_APPOINTMENTS 100
 
-/* ---- Appointment struct (Unit 8) ---- */
+/* ---- Appointment struct ---- */
 typedef struct {
     char appointmentID[8];
     char patientName[50];
@@ -39,7 +39,6 @@ typedef struct {
     char status[15];   /* Scheduled | Cancelled | Completed | Missed */
     char type[20]; /* Pregnant | Senior | PWD | Regular */
 }  Appointment ;
-
 
 /* ===========================================================
    APPOINTMENT MANAGEMENT MENU
@@ -74,9 +73,6 @@ static inline void AppointmentManagement(Doctor doctors[], int doctorCount) {
         }
     }
 }
-
-
-
 
 /* ===========================================================
    FILE I/O
@@ -118,67 +114,6 @@ static inline int loadAppointments(Appointment *appts) {
 
     fclose(fp);
     return total;
-}
-
-/* ===========================================================
-   HELPER FUNCTIONS
-   =========================================================== */
-
-/*
- * Returns 1 if the given doctor has NO Scheduled appointment on 'date'.
- * Used to prevent double-booking the same doctor on the same day.
- */
-static inline int canBookDoctor(Appointment *appts, int total,
-                                    const char *doctorName, const char *date) {
-    int appt_count = 0;
-
-    for (int i = 0; i < total; i++) {
-        if (strcmp(appts[i].doctorName, doctorName) == 0 &&
-            strcmp(appts[i].date,       date)       == 0 &&
-            strcmp(appts[i].status,     "Scheduled") == 0)
-            appt_count++; 
-    }
-
-    if (appt_count >= 5) {
-        printf("Dr. %s's schedule on this date is full. Please choose another date or doctor.\n", doctorName);
-        return 0;
-    }
-    return 1;
-}
-
-/*
- * Generates an appointment ID in the form "D<docIdx>-<counter>".
- * Counter is persisted in appt_counter.txt so IDs are unique across runs.
- */
-static inline void generateAppointmentID(char *id,
-                                         const char *doctorName,
-                                         Doctor doctors[], int doctorCount) {
-    /* Find the doctor's 1-based index */
-    int docIdx = 0;
-    for (int i = 0; i < doctorCount; i++) {
-        if (strcmp(doctors[i].name, doctorName) == 0) { docIdx = i + 1; break; }
-    }
-
-    /* Read persistent counter */
-    int counter = 1;
-    FILE *cf = fopen("appt_counter.txt", "r");
-    if (cf) { fscanf(cf, "%d", &counter); fclose(cf); }
-
-    sprintf(id, "D%d-%04d", docIdx, counter);
-
-    /* Increment and save counter for next booking */
-    cf = fopen("appt_counter.txt", "w");
-    if (cf) { fprintf(cf, "%d", counter + 1); fclose(cf); }
-}
-
-/* Pretty-print one appointment */
-static inline void printAppointment(Appointment *a) {
-    printf("  ID     : %s\n", a->appointmentID);
-    printf("  Patient: %s\n", a->patientName);
-    printf("  Doctor : %s\n", a->doctorName);
-    printf("  Date   : %s\n", a->date);
-    printf("  Status : %s\n", a->status);
-    printf("  Type   : %s\n", a->type);
 }
 
 #endif /* APPOINTMENTMGMT_H */
