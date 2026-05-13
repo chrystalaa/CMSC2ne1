@@ -3,6 +3,8 @@
 #include <stdlib.h>
 
 #include "DoctorManagement.h"
+#include "DoctorFileHandling.h"
+
 
 /* ===========================================================
    VIEW DOCTORS  (Unit 5: Arrays, Unit 8: Structures)

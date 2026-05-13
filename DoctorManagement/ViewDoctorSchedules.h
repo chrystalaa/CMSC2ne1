@@ -3,6 +3,7 @@
 #include <stdlib.h>
 
 #include "DoctorManagement.h"
+#include "DoctorFileHandling.h"
 
 /* ===========================================================
    VIEW DOCTOR SCHEDULE  (reads appointments.txt for a doctor)
