@@ -7,7 +7,7 @@
 
 
 /* ===========================================================
-   VIEW DOCTORS  (Unit 5: Arrays, Unit 8: Structures)
+   VIEW DOCTORS
    =========================================================== */
 static inline void viewDoctors(Doctor doctors[], int count) {
     printf("\n==========================================\n");
