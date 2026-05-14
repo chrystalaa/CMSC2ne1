@@ -55,10 +55,11 @@ static inline void bookAppointment(Appointment *appts, int *total,
     if (availCount == 0) {
         printf("No doctors available on %s.\n", na.date); return;
     }
-
     printf("  0. Go back\n");
-    printf("Select doctor (0-%d): ", availCount);
+    
+
     int choice;
+    printf("Select doctor (0-%d): ", availCount);
     if (scanf("%d", &choice) != 1) {
         while (getchar() != '\n') {}
         return;

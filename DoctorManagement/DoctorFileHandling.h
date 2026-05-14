@@ -5,7 +5,7 @@
 #include "DoctorManagement.h"
 
 /* ===========================================================
-   FILE I/O  (Unit 9: File Handling)
+   FILE I/O 
    =========================================================== */
 
 /* Save the entire doctors array to DOCTOR_FILE (pipe-delimited) */
