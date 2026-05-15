@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "AppointmentMgmt.h"
-
+zx
 
 /* ===========================================================
    1. BOOK APPOINTMENT
@@ -39,7 +39,7 @@ static inline void bookAppointment(Appointment *appts, int *total,
         printf("Going back.\n"); return;
     }
 
-    /* Show only doctors free on the chosen date (Unit 5: Arrays) */
+    /* Show only doctors free on the chosen date */
     int available[MAX_DOCTORS];
     int availCount = 0;
 
