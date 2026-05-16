@@ -63,7 +63,9 @@ int main(void) {
 
         /* Safely read menu choice; flush on bad input */
         if (scanf("%d", &choice) != 1) {
-            while (getchar() != '\n');
+            int c;
+            while ((c = getchar()) != '\n' && c != EOF);
+            if (c == EOF) { printf("\n  Goodbye!\n\n"); return 0; }
             continue;
         }
 
