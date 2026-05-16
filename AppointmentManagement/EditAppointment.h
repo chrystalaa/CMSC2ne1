@@ -3,7 +3,6 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "AppointmentMgmt.h"
 
 
 /* ===========================================================
@@ -39,6 +38,7 @@ static inline void editAppointment(Appointment *appts, int total,
     printf("1. Patient Name\n");
     printf("2. Date\n");
     printf("3. Doctor (and Date)\n");
+    printf("4. Type (Regular/PWD/Senior/Pregnant)\n");
     printf("0. Go back\n");
     printf("Choice: ");
 
@@ -49,7 +49,7 @@ static inline void editAppointment(Appointment *appts, int total,
     switch (opt) {
         case 0: printf("Going back.\n"); return;
 
-        case 1:   /* Edit patient name */
+        case 1:    /* Edit patient name */
             printf("New patient name (0 to go back): ");
             fgets(appts[idx].patientName, sizeof(appts[idx].patientName), stdin);
             appts[idx].patientName[strcspn(appts[idx].patientName, "\n")] = '\0';
@@ -85,6 +85,22 @@ static inline void editAppointment(Appointment *appts, int total,
             if (strcmp(newDate, "0") == 0 || newDate[0] == '\0') {
                 printf("Going back.\n"); return;
             }
+        
+        case 4: {  /* Edit type */
+            printf("New type (Regular/PWD/Senior/Pregnant, 0 to go back): ");
+            char newType[20];
+            fgets(newType, sizeof(newType), stdin);
+            newType[strcspn(newType, "\n")] = '\0';
+            if (strcmp(newType, "0") == 0 || newType[0] == '\0') {
+                printf("Going back.\n"); return;
+            }
+            if (strcmp(newType, "Regular") != 0 &&
+                strcmp(newType, "PWD") != 0 &&
+                strcmp(newType, "Senior") != 0 &&
+                strcmp(newType, "Pregnant") != 0) {
+                printf("Invalid type.\n"); return;
+            }
+        }
 
             int avail[MAX_DOCTORS], ac = 0;
             printf("Available doctors on %s:\n", newDate);

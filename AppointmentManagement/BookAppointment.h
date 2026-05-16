@@ -3,8 +3,7 @@
 
 #include <stdio.h>
 #include <string.h>
-#include "AppointmentMgmt.h"
-zx
+
 
 /* ===========================================================
    1. BOOK APPOINTMENT
@@ -56,7 +55,6 @@ static inline void bookAppointment(Appointment *appts, int *total,
         printf("No doctors available on %s.\n", na.date); return;
     }
     printf("  0. Go back\n");
-    
 
     int choice;
     printf("Select doctor (0-%d): ", availCount);
