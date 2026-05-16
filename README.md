@@ -4,7 +4,7 @@ Final Project for CMSC 21
 # Clinic Management System
 A terminal-based clinic management system written in C, developed as a final project for CMSC 21.
 
-**Group:* CMSC2ne1
+**Group:** CMSC2ne1
 
 ## Features
 - **Appointment Management** — Book, view, edit, and cancel appointments
