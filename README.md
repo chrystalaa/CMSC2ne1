@@ -32,6 +32,7 @@ clinic.exe      # Windows
 - Enter `0` at any prompt to go back one level
 
 ## File Structure
+```
 project/
 ├── main-clinic.c
 ├── AppointmentManagement/
@@ -44,6 +45,7 @@ project/
 │   ├── core/
 │   └── PatientMgmtFunctions/ (CRUD) 
 └── QueueManagement/
+```
 
 ## Data Files (auto-generated on first run)
 - `appointments.txt` — Appointment records
