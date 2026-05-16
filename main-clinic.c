@@ -17,7 +17,7 @@
 
 #include "DoctorManagement.h"
 #include "PatientMgmt.h"
-#include "AppointmentMgmt.h"
+#include "AppointmentManagement/core/AppointmentMgmt.h"
 #include "QueueMgmt.h"
 
 /* Clear the terminal (cross-platform) */

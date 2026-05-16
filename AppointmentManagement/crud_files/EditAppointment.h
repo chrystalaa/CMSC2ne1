@@ -8,7 +8,7 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "AppointmentMgmt.h"
+#include "../core/AppointmentMgmt.h"
 
 /* ===========================================================
    3. EDIT APPOINTMENT  (only Scheduled appointments)

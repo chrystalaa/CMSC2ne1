@@ -19,8 +19,8 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include "DoctorManagement.h"
-#include "QueueManagement.h" // for checking if a patient checked in on the appointment date to mark as Completed or Missed
+#include "../../DoctorManagement/DoctorManagement.h"
+#include "../../QueueManagement/QueueManagement.h" // for checking if a patient checked in on the appointment date to mark as Completed or Missed
 
 #include "ApptFileHandling.h"
 

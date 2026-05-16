@@ -4,9 +4,9 @@
 #include <stdio.h>
 #include <string.h>
 
-#include "HelperFunctions.h"
-#include "DatePicker.h"
-#include "AppointmentMgmt.h"
+#include "../helpers/HelperFunctions.h"
+#include "../helpers/DatePicker.h"
+#include "../core/AppointmentMgmt.h"
 
 
 /* ===========================================================
