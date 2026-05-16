@@ -7,8 +7,6 @@
 
 #include "ApptStructure.h"
 
-#define MAX_APPOINTMENTS 100
-
 /* ===========================================================
    FILE I/O
    =========================================================== */
@@ -39,7 +37,7 @@ static inline int loadAppointments(Appointment *appts) {
     while (fgets(line, sizeof(line), fp) && total < MAX_APPOINTMENTS) {
         if (line[0] == '\n' || line[0] == '\r'|| line[0] == '\0') 
             continue;  /* skip blank lines */
-        int result = sscanf(line, "%7[^|]|%49[^|]|%49[^|]|%10[^|]|%19[^|]|%14[^\n]",
+        int result = sscanf(line, "%8[^|]|%49[^|]|%49[^|]|%10[^|]|%19[^|]|%14[^\r\n]",
                             appts[total].appointmentID,     appts[total].patientName,
                             appts[total].doctorName,        appts[total].date,
                             appts[total].type,              appts[total].status);

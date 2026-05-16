@@ -29,7 +29,7 @@ static inline void viewAppointments(Appointment *appts, int total) {
     if (scanf("%d", &opt) != 1) { while (getchar() != '\n'); return; }
     if (opt == 0) { printf("Going back.\n"); return; }
     
-    char searchID[8] = ""; /* Init for option 4 search */
+    char searchID[9] = ""; /* Init for option 4 search */
     switch (opt) {
         case 1: printf("Showing all appointments.\n"); break;
         case 2: printf("Showing only scheduled appointments.\n"); break;
@@ -39,7 +39,7 @@ static inline void viewAppointments(Appointment *appts, int total) {
         case 6: { int found = 0;
 
                 printf("Enter appointment ID to search: ");
-                scanf("%7s", searchID);
+                scanf("%8s", searchID);
                 while (getchar() != '\n');
                 for (int i = 0; i < total; i++) {
                     if (strcasecmp(appts[i].appointmentID, searchID) == 0) {

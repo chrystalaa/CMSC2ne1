@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 
 /* ===========================================================
@@ -14,21 +15,17 @@
  * Used to prevent double-booking the same doctor on the same day.
  */
 static inline int canBookDoctor(Appointment *appts, int total,
-                                    const char *doctorName, const char *date) {
+                                const char *doctorName, const char *date) {
     int appt_count = 0;
 
     for (int i = 0; i < total; i++) {
         if (strcmp(appts[i].doctorName, doctorName) == 0 &&
             strcmp(appts[i].date,       date)       == 0 &&
             strcmp(appts[i].status,     "Scheduled") == 0)
-            appt_count++; 
+            appt_count++;
     }
 
-    if (appt_count >= 5) {
-        printf("Dr. %s's schedule on this date is full. Please choose another date or doctor.\n", doctorName);
-        return 0;
-    }
-    return 1;
+    return (appt_count < 5);
 }
 
 /*
@@ -49,7 +46,7 @@ static inline void generateAppointmentID(char *id,
     FILE *cf = fopen("appt_counter.txt", "r");
     if (cf) { fscanf(cf, "%d", &counter); fclose(cf); }
 
-    sprintf(id, "D%d-%04d", docIdx, counter);
+    snprintf(id, 9, "D%d-%04d", docIdx, counter);
 
     /* Increment and save counter for next booking */
     cf = fopen("appt_counter.txt", "w");
@@ -62,6 +59,8 @@ static inline void printAppointment(Appointment *a) {
     printf("  Patient: %s\n", a->patientName);
     printf("  Doctor : %s\n", a->doctorName);
     printf("  Date   : %s\n", a->date);
-    printf("  Status : %s\n", a->status);
     printf("  Type   : %s\n", a->type);
+    printf("  Status : %s\n", a->status);
 }
+
+#endif /* HELPERFUNCTIONS_H */

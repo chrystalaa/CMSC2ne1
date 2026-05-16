@@ -4,6 +4,10 @@
 #include <stdio.h>
 #include <string.h>
 
+#include "HelperFunctions.h"
+#include "DatePicker.h"
+#include "AppointmentMgmt.h"
+
 
 /* ===========================================================
    1. BOOK APPOINTMENT
@@ -31,13 +35,29 @@ static inline void bookAppointment(Appointment *appts, int *total,
     }
 
     /* Date */
-    printf("Appointment date (YYYY-MM-DD): ");
-    fgets(na.date, sizeof(na.date), stdin);
-    na.date[strcspn(na.date, "\n")] = '\0';
-    if (strcmp(na.date, "0") == 0 || na.date[0] == '\0') {
-        printf("Going back.\n"); return;
-    }
+    if (!pickDate(na.date)) return;
 
+
+    /* Type */
+    const char *types[] = {"Pregnant", "Senior", "PWD", "Regular"};
+    int typeChoice;
+    while (1) {
+        printf("\nAppointment type:\n");
+        for (int i = 0; i < 4; i++)
+            printf("  %d. %s\n", i + 1, types[i]);
+        printf("  0. Go back\n");
+        printf("Choice: ");
+
+        if (scanf("%d", &typeChoice) != 1) { while (getchar() != '\n'); continue; }
+        while (getchar() != '\n');
+
+        if (typeChoice == 0) { printf("Going back.\n"); return; }
+        if (typeChoice >= 1 && typeChoice <= 4) {
+            strcpy(na.type, types[typeChoice - 1]);
+            break;
+        }
+        printf("Invalid choice.\n");
+    }
     /* Show only doctors free on the chosen date */
     int available[MAX_DOCTORS];
     int availCount = 0;
