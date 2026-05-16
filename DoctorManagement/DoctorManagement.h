@@ -81,7 +81,12 @@ static inline void DoctorManagement(Doctor doctors[], int *count) {
         printf("0. Back to Main Menu\n");
         printf("Select option: ");
 
-        if (scanf("%d", &opt) != 1) { while (getchar() != '\n'); continue; }
+        if (scanf("%d", &opt) != 1) { 
+            int c;
+            while ((c = getchar()) != '\n' && c != EOF);
+            if (c == EOF) return;
+            continue;
+        }
 
         switch (opt) {
             case 1: viewDoctors(doctors, *count);        break;
