@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>   // Required for isalpha and isdigit
-#include <strings.h> // Required for strcasecmp
+#include <string.h> // Required for strcasecmp
 
 #ifdef _WIN32
 #define strcasecmp _stricmp
@@ -87,7 +87,7 @@ static inline void DeletePatient(void) {
                 found = 1;
                 
                 // Skip lines belonging to this target until reaching the blank layout separator line
-                while (fgets(extra_line, sizeof(extra_line), fp) && strlen(extra_line) > 1) {
+                while (fgets(extra_line, sizeof(extra_line), fp) && extra_line[0] != '\n' && extra_line[0] != '\r') {
                     // Purposefully doing nothing inside loop to skip writing data lines
                 }
                 continue; // Prevent writing the original block boundary line to temp file

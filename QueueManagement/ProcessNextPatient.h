@@ -23,6 +23,7 @@ static inline void processNextPatient(Doctor doctors[], int doctorCount) {
     while (getchar() != '\n');
 
     switch (action) {
+        case 0: return; // Back
         case 1: // Call Priority
             if (doctorBusy[doc] != 0) { printf("Room is still occupied. Mark current patient as done first.\n"); break; }
             if (priorityQueueCount[doc] == 0) { printf("No priority patients waiting.\n"); break; }
@@ -54,6 +55,7 @@ static inline void processNextPatient(Doctor doctors[], int doctorCount) {
             doctorBusy[doc] = 0;
             printf("Room is now clear.\n");
             break;
+        default: printf("Invalid option.\n"); break;
     }
 }
 

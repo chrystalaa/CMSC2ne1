@@ -13,7 +13,7 @@ static inline int verifyAndGetAppt(const char *searchID,
                                    struct QAppointment *out,
                                    Doctor doctors[], int doctorCount,
                                    int *docIdx) {
-    FILE *fp = fopen("appointments.txt", "r");
+    FILE *fp = fopen("records/appointments.txt", "r");
     if (!fp) return 0;
 
     char line[360]; 
@@ -71,7 +71,7 @@ static inline void markCompleted(const char *targetID) {
     }
     fclose(fp);
 
-    fp = fopen("appointments.txt", "w");
+    fp = fopen("records/appointments.txt", "w");
     if (!fp) return;
     for (int i = 0; i < total; i++) {
         fprintf(fp, "%s|%s|%s|%s|%s|%s\n",
@@ -96,7 +96,7 @@ static inline void markMissed(void) {
     struct QAppointment all[MAX_APPTS_LOCAL];
     int total = 0;
 
-    FILE *fp = fopen("appointments.txt", "r");
+    FILE *fp = fopen("records/appointments.txt", "r");
     if (!fp) return;
 
     char line[360];
@@ -116,7 +116,7 @@ static inline void markMissed(void) {
     }
     fclose(fp);
 
-    fp = fopen("appointments.txt", "w");
+    fp = fopen("records/appointments.txt", "w");
     if (!fp) return;
     for (int i = 0; i < total; i++)
         fprintf(fp, "%s|%s|%s|%s|%s|%s\n",
