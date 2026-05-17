@@ -1,9 +1,9 @@
+#ifndef VIEWDOCTOR_H
+#define VIEWDOCTOR_H
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-
-#include "DoctorManagement.h"
-#include "DoctorFileHandling.h"
 
 
 /* ===========================================================
@@ -29,3 +29,6 @@ static inline void viewDoctors(Doctor doctors[], int count) {
     }
     printf("==========================================\n");
 }
+
+
+#endif // VIEWDOCTOR_H

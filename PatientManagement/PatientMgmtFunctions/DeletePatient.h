@@ -3,9 +3,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 #include <ctype.h>   // Required for isalpha and isdigit
 #include <strings.h> // Required for strcasecmp
+
+#ifdef _WIN32
+#define strcasecmp _stricmp
+#endif
 
 /* ===========================================================
    DELETE PATIENT  (Rewritten to dynamically parse tags)
@@ -15,7 +18,7 @@ static inline void DeletePatient(void) {
     printf("          DELETE PATIENT SECTION          \n");
     printf("==========================================\n");
 
-    FILE *fp = fopen("patients.txt", "r");
+    FILE *fp = fopen("records/patients.txt", "r");
     if (!fp) { 
         printf("No patient records found.\n"); 
         return; 
@@ -57,7 +60,7 @@ static inline void DeletePatient(void) {
     }
 
     /* Write non-matching records to a temp file */
-    FILE *tmp = fopen("patients_temp.txt", "w");
+    FILE *tmp = fopen("records/patients_temp.txt", "w");
     if (!tmp) {
         printf("System error: could not create temp file.\n");
         fclose(fp); 
@@ -103,16 +106,17 @@ static inline void DeletePatient(void) {
         printf("Are you sure you want to delete patient '%s %s'? (y/n): ", delete_first, delete_last);
         char c;
         scanf(" %c", &c);
+        while (getchar() != '\n');
         if (c == 'n' || c == 'N') {
-            remove("patients_temp.txt");
+            remove("records/patients_temp.txt");
             printf("Deletion cancelled.\n");
             return;
         }
-        remove("patients.txt");
-        rename("patients_temp.txt", "patients.txt");
+        remove("records/patients.txt");
+        rename("records/patients_temp.txt", "records/patients.txt");
         printf("Patient '%s %s' deleted successfully.\n", delete_first, delete_last);
     } else {
-        remove("patients_temp.txt");
+        remove("records/patients_temp.txt");
         printf("Patient '%s %s' not found.\n", delete_first, delete_last);
     }
 }

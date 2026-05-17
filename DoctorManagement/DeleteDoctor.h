@@ -1,8 +1,10 @@
+#ifndef DELETEDOCTOR_H
+#define DELETEDOCTOR_H
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
-#include "DoctorManagement.h"
 #include "DoctorFileHandling.h"
 
 /* ===========================================================
@@ -16,7 +18,7 @@ static inline void deleteDoctor(Doctor doctors[], int *count) {
     printf("Enter Doctor ID to delete (0 to go back): ");
     int id;
     if (scanf("%d", &id) != 1) { while (getchar() != '\n'); return; }
-    if (id == 0) { printf("Going back.\n"); while (getchar() != '\n'); return; }
+    if (id == 0) { printf("Going back.\n"); return; }
 
     /* Find the doctor by ID */
     int found = -1;
@@ -28,9 +30,9 @@ static inline void deleteDoctor(Doctor doctors[], int *count) {
 
     printf("Delete Dr. %s? (y/n, 0 to go back): ", doctors[found].name);
     char confirm;
-    scanf(" %c", &confirm);
+    scanf(" %c", &confirm); while (getchar() != '\n');
 
-    if (confirm == '0') { printf("Going back.\n"); while (getchar() != '\n'); return; }
+    if (confirm == '0') { printf("Going back.\n"); return; }
     if (confirm != 'y' && confirm != 'Y') { printf("Deletion cancelled.\n"); return; }
 
     /* Shift remaining entries left to fill the gap */
@@ -41,3 +43,5 @@ static inline void deleteDoctor(Doctor doctors[], int *count) {
     saveDoctors(doctors, *count);
     printf("Doctor deleted successfully.\n");
 }
+
+#endif /* DELETEDOCTOR_H */

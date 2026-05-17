@@ -43,7 +43,7 @@ static inline void generateAppointmentID(char *id,
 
     /* Read persistent counter */
     int counter = 1;
-    FILE *cf = fopen("appt_counter.txt", "r");
+    FILE *cf = fopen("records/appt_counter.txt", "r");
     if (cf) { fscanf(cf, "%d", &counter); fclose(cf); }
 
     snprintf(id, 9, "D%d-%04d", docIdx, counter);

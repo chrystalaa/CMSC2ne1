@@ -1,5 +1,5 @@
-#ifndef QUEUEMGMT_PROCESS_H
-#define QUEUEMGMT_PROCESS_H
+#ifndef PROCESSNEXTPATIENT_H
+#define PROCESSNEXTPATIENT_H
 
 /* ===========================================================
    3. PROCESS NEXT PATIENT (Doctor Control Panel)
@@ -19,16 +19,19 @@ static inline void processNextPatient(Doctor doctors[], int doctorCount) {
     printf("0. Back\nChoice: ");
 
     int action;
-    scanf("%d", &action);
+    if (scanf("%d", &action) != 1) { while (getchar() != '\n'); return; }
+    while (getchar() != '\n');
 
     switch (action) {
         case 1: // Call Priority
+            if (doctorBusy[doc] != 0) { printf("Room is still occupied. Mark current patient as done first.\n"); break; }
             if (priorityQueueCount[doc] == 0) { printf("No priority patients waiting.\n"); break; }
             doctorBusy[doc] = 2;
             printf("Priority Patient %s called into room.\n", priorityQueueSlots[doc][0]);
             break;
 
         case 2: // Call Regular
+            if (doctorBusy[doc] != 0) { printf("Room is still occupied. Mark current patient as done first.\n"); break; }
             if (queueCount[doc] == 0) { printf("No regular patients waiting.\n"); break; }
             doctorBusy[doc] = 1;
             printf("Regular Patient %s called into room.\n", queueSlots[doc][0]);
@@ -54,4 +57,4 @@ static inline void processNextPatient(Doctor doctors[], int doctorCount) {
     }
 }
 
-#endif /* QUEUEMGMT_PROCESS_H */
+#endif /* PROCESSNEXTPATIENT_H */

@@ -1,5 +1,5 @@
-#ifndef QUEUEMGMT_CHECKIN_H
-#define QUEUEMGMT_CHECKIN_H
+#ifndef CHECKINPATIENT_H
+#define CHECKINPATIENT_H
 
 /* ===========================================================
    1. CHECK-IN PATIENT
@@ -8,7 +8,7 @@ static inline void checkInPatient(Doctor doctors[], int doctorCount) {
     while (getchar() != '\n'); 
 
     printf("\n--- Clinic Check-in ---\n");
-    char inputID[20];
+    char inputID[9];
     printf("Enter Appointment ID: ");
     fgets(inputID, sizeof(inputID), stdin);
     inputID[strcspn(inputID, "\n")] = '\0';
@@ -18,8 +18,9 @@ static inline void checkInPatient(Doctor doctors[], int doctorCount) {
 
     if (!verifyAndGetAppt(inputID, &appt, doctors, doctorCount, &docIdx)) {
         printf("Invalid ID or Appointment not eligible for check-in.\n");
-        return;
-    }
+        return; }
+    if (docIdx == -1) {
+    printf("Doctor not found in system.\n"); return; }
 
     /* MULTI-CONDITION ROUTING */
     if (strcmp(appt.type, "PWD") == 0 || 
@@ -45,4 +46,4 @@ static inline void checkInPatient(Doctor doctors[], int doctorCount) {
     printf("Patient: %s | Dr. %s\n", appt.patientName, doctors[docIdx].name);
 }
 
-#endif /* QUEUEMGMT_CHECKIN_H */
+#endif /* CHECKINPATIENT_H */

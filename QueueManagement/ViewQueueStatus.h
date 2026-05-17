@@ -1,5 +1,5 @@
-#ifndef QUEUEMGMT_STATUS_H
-#define QUEUEMGMT_STATUS_H
+#ifndef VIEWQUEUESTATUS_H
+#define VIEWQUEUESTATUS_H
 
 /* ===========================================================
    2. VIEW QUEUE STATUS
@@ -33,4 +33,4 @@ static inline void viewQueueStatus(Doctor doctors[], int doctorCount) {
     printf("============================================================\n");
 }
 
-#endif /* QUEUEMGMT_STATUS_H */
+#endif /* VIEWQUEUESTATUS_H */

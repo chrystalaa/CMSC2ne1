@@ -9,8 +9,8 @@ typedef struct {
     char patientName[50];
     char doctorName[50];
     char date[11];
-    char type[20]; /* Pregnant | Senior | PWD | Regular */
-    char status[15];   /* Scheduled | Cancelled | Completed | Missed */
+    char type[20]; /* Pregnant | Senior Citizen | PWD | Regular */
+    char status[20];   /* Scheduled | Cancelled | Completed | Missed */
 }  Appointment ;
 
 #endif /* APPTSTRUCTURE_H */

@@ -15,8 +15,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "DoctorManagement/DoctorManagement.h"
-#include "PatientManagement/PatientManagement.h"
+#include "DoctorManagement/DoctorMgmt.h"
+#include "PatientManagement/PatientMgmt.h"
 #include "AppointmentManagement/core/AppointmentMgmt.h"
 #include "QueueManagement/QueueMgmt.h"
 

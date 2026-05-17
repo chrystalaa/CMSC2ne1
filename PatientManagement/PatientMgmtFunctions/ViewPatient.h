@@ -1,11 +1,10 @@
-#ifndef ADDPATIENT_H
-#define ADDPATIENT_H
+#ifndef VIEWPATIENT_H
+#define VIEWPATIENT_H
 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>   // Required for isalpha and isdigit
-#include <strings.h> // Required for strcasecmp
 
 /* ===========================================================
    VIEW ALL PATIENT RECORDS
@@ -15,7 +14,7 @@ static inline void PatientRecords(void) {
     printf("         ALL PATIENT RECORDS              \n");
     printf("==========================================\n");
 
-    FILE *fp = fopen("patients.txt", "r");
+    FILE *fp = fopen("records/patients.txt", "r");
     if (!fp) {
         printf("No patient database found. Add a patient first.\n");
         printf("==========================================\n");
@@ -37,4 +36,4 @@ static inline void PatientRecords(void) {
     printf("==========================================\n");
     fclose(fp);
 }
-#endif
+#endif /* VIEWPATIENT_H */

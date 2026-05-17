@@ -5,7 +5,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>   // Required for isalpha and isdigit
-#include <strings.h> // Required for strcasecmp
 
 // Helper function for case-insensitive searching
 static inline char* strcasestr_custom(const char* haystack, const char* needle) {
@@ -27,7 +26,7 @@ static inline void SearchPatient(void) {
     printf("           SEARCH PATIENT SECTION          \n");
     printf("==========================================\n");
 
-    FILE *fp = fopen("patients.txt", "r");
+    FILE *fp = fopen("records/patients.txt", "r");
     if (!fp) { printf("No patient records found.\n"); return; }
 
     // Use a more robust buffer clear
@@ -58,7 +57,7 @@ static inline void SearchPatient(void) {
                 printf("%s", line);
                 
                 // Print lines until we hit the blank separator line
-                while (fgets(line, sizeof(line), fp) && strlen(line) > 1) {
+                while (fgets(line, sizeof(line), fp) && line[0] != '\n' && line[0] != '\r') {
                     printf("%s", line);
                 }
                 printf("----------------------------------------------------------\n");
@@ -70,4 +69,4 @@ static inline void SearchPatient(void) {
     if (!found) printf("Patient '%s' not found.\n", search_name);
     fclose(fp);
 }
-#endif
+#endif /* SEARCHPATIENT_H */

@@ -1,16 +1,17 @@
-#ifndef EDIT_DOCTOR_H
-#ifndef EDIT_DOCTOR_H
+#ifndef EDITDOCTOR_H
+#define EDITDOCTOR_H
 
 #include <stdio.h>
 #include <string.h>
-#include "DoctorManagement.h"
-#include "viewDoctors.h"
+#include <stdlib.h>
+
+#include "DoctorFileHandling.h"
+#include "ViewDoctor.h"
 
 /* ===========================================================
     EDIT DOCTOR  
    =========================================================== */
-static inline void editDoctor(Appointment *appts, int total,
-                                   Doctor doctors[], int doctorCount) {
+static inline void editDoctor(Doctor doctors[], int doctorCount) {
     while (getchar() != '\n');
 
     printf("\n--- Edit Doctor Details (enter 0 at any prompt to go back) ---\n");
@@ -21,18 +22,18 @@ static inline void editDoctor(Appointment *appts, int total,
     fgets(idBuffer, sizeof(idBuffer), stdin);
     idBuffer[strcspn(idBuffer, "\n")] = '\0';
     /*Checks if user wants to back out early*/
-    if (strcmp(idBuffer, "0") == 0 || id[0] == '\0') { printf("Going back.\n"); return; }
+    if (strcmp(idBuffer, "0") == 0 || idBuffer[0] == '\0') { printf("Going back.\n"); return; }
 
     /*String to int conversion, turns text buffers into actal integer values*/
     int searchId = atoi(idBuffer);
     /* Find Doctor by ID */
     int idx = -1;
     for (int i = 0; i <doctorCount; i++) {
-        if (doctors[i].id == searchId, id){ idx = i; break; }
+        if (doctors[i].id == searchId){ idx = i; break; }
     }
 
     /*If idx == -1, no doctor has that ID*/
-    if (idx == -1) { printf("\\Dooctor ID '%s' not found.\n", searchId); return; }
+    if (idx == -1) { printf("Doctor ID '%d' not found.\n", searchId); return; }
 
    /*Displaying current details*/
     printf("\nCurrent details:\n");
@@ -45,8 +46,8 @@ static inline void editDoctor(Appointment *appts, int total,
     printf("0. Go back\n");
     printf("Choice: ");
 
-    int optBuffer;
-    if (scanf("%d", &optBuffer) != 1) { while (getchar() != '\n'); return; }
+    int opt;
+    if (scanf("%d", &opt) != 1) { while (getchar() != '\n'); return; }
     while (getchar() != '\n');
 
     switch (opt) {
@@ -56,14 +57,13 @@ static inline void editDoctor(Appointment *appts, int total,
         char newName[50];
 
             printf("New Doctor name (0 to go back): ");
-            fgets((newName, sizeof(newName)), stdin);
+            fgets(newName, sizeof(newName), stdin);
             newName[strcspn(newName, "\n")] = '\0';
             /*If user types 0 or blank, goes back without changing anything*/
             if (strcmp(newName, "0") == 0 ||
             newName[0] == '\0') {
                 printf("Going back.\n"); return;
             }
-            return;
             /*Copies string to prevent buffer overflow*/
             strncpy(doctors[idx].name, newName, 49);
             doctors[idx].name[49] = '\0';
@@ -71,7 +71,7 @@ static inline void editDoctor(Appointment *appts, int total,
         }
 
         case 2: {  /* Edit Specialty */
-            printf("New Specialty, 0 to go back): ");
+            printf("New Specialty, (0 to go back): ");
             fgets(doctors[idx].specialty, sizeof(doctors[idx].specialty), stdin);
             doctors[idx].specialty[strcspn(doctors[idx].specialty, "\n")] = '\0';
             if (strcmp(doctors[idx].specialty, "0") == 0 || doctors[idx].specialty[0] == '\0') {
@@ -88,4 +88,4 @@ static inline void editDoctor(Appointment *appts, int total,
     viewDoctors(&doctors[idx], 1);
 }
 
-#endif
+#endif /* EDITDOCTOR_H */

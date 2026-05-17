@@ -39,7 +39,7 @@ static inline void bookAppointment(Appointment *appts, int *total,
 
 
     /* Type */
-    const char *types[] = {"Pregnant", "Senior", "PWD", "Regular"};
+    const char *types[] = {"Pregnant", "Senior Citizen", "PWD", "Regular"};
     int typeChoice;
     while (1) {
         printf("\nAppointment type:\n");

@@ -1,9 +1,9 @@
+#ifndef VIEWDOCTORSCHEDULES_H
+#define VIEWDOCTORSCHEDULES_H
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-
-#include "DoctorManagement.h"
-#include "DoctorFileHandling.h"
 
 /* ===========================================================
    VIEW DOCTOR SCHEDULE  (reads appointments.txt for a doctor)
@@ -23,7 +23,7 @@ static inline void viewDoctorSchedule(Doctor *doctors, int count) {
         printf("Going back.\n"); return;
     }
 
-    FILE *fp = fopen("appointments.txt", "r");
+    FILE *fp = fopen("records/appointments.txt", "r");
     if (!fp) { printf("No appointments on record.\n"); return; }
 
     printf("\n--- Schedule for Dr. %s ---\n", searchName);
@@ -35,12 +35,13 @@ static inline void viewDoctorSchedule(Doctor *doctors, int count) {
     int  found = 0;
 
     while (fgets(line, sizeof(line), fp)) {
-        char id[20], patient[50], doctor[50], date[20], status[20];
-        if (sscanf(line, "%19[^|]|%49[^|]|%49[^|]|%19[^|]|%19[^\n]",
-                   id, patient, doctor, date, status) == 5) {
-            if (strstr(doctor, searchName)) {
+        char id[9], patient[50], doctor[50], date[11], type[20], status[20];
+        if (sscanf(line, "%8[^|]|%49[^|]|%49[^|]|%10[^|]|%19[^|]|%19[^\r\n]",
+           id, patient, doctor, date, type, status) == 6) { {
+            if (strcmp(doctor, searchName) == 0) {
                 printf("%-20s %-14s %-12s %-12s\n", patient, id, date, status);
                 found = 1;
+            }
             }
         }
     }
@@ -49,3 +50,5 @@ static inline void viewDoctorSchedule(Doctor *doctors, int count) {
     printf("------------------------------------------------------------\n");
     fclose(fp);
 }
+
+#endif /* VIEWDOCTORSCHEDULES_H */

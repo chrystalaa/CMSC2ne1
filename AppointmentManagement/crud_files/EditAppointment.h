@@ -43,7 +43,7 @@ static inline void editAppointment(Appointment *appts, int total,
     printf("1. Patient Name\n");
     printf("2. Date\n");
     printf("3. Doctor (and Date)\n");
-    printf("4. Type (Regular/PWD/Senior/Pregnant)\n");
+    printf("4. Type (Regular / PWD/ Senior Citizen / Pregnant)\n");
     printf("0. Go back\n");
     printf("Choice: ");
 
@@ -109,7 +109,7 @@ static inline void editAppointment(Appointment *appts, int total,
         }
 
         case 4: {  /* Change type */
-        const char *types[] = {"Pregnant", "Senior", "PWD", "Regular"};
+        const char *types[] = {"Pregnant", "Senior Citizen", "PWD", "Regular"};
         int typeChoice;
         while (1) {
             printf("\nNew appointment type:\n");

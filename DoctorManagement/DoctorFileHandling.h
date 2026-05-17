@@ -1,8 +1,9 @@
+#ifndef DOCTORFILEHANDLING_H
+#define DOCTORFILEHANDLING_H
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-
-#include "DoctorManagement.h"
 
 /* ===========================================================
    FILE I/O 
@@ -44,3 +45,5 @@ static inline int loadDoctors(Doctor doctors[]) {
     fclose(fp);
     return count;
 }
+
+#endif /* DOCTORFILEHANDLING_H */

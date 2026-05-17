@@ -13,7 +13,7 @@
 
 /* Overwrite appointments.txt with the current in-memory array */
 static inline void saveAppointments(Appointment *appts, int total) {
-    FILE *fp = fopen("appointments.txt", "w");
+    FILE *fp = fopen("records/appointments.txt", "w");
     if (!fp) { printf("Error saving appointments.\n"); return; }
 
     for (int i = 0; i < total; i++)
@@ -27,7 +27,7 @@ static inline void saveAppointments(Appointment *appts, int total) {
 
 /* Load appointments from file; returns count. Opens with "a+" to create if missing */
 static inline int loadAppointments(Appointment *appts) {
-    FILE *fp = fopen("appointments.txt", "a+");  /* create if not exists */
+    FILE *fp = fopen("records/appointments.txt", "a+");  /* create if not exists */
     if (!fp) return 0;
     rewind(fp);
 
@@ -37,7 +37,7 @@ static inline int loadAppointments(Appointment *appts) {
     while (fgets(line, sizeof(line), fp) && total < MAX_APPOINTMENTS) {
         if (line[0] == '\n' || line[0] == '\r'|| line[0] == '\0') 
             continue;  /* skip blank lines */
-        int result = sscanf(line, "%8[^|]|%49[^|]|%49[^|]|%10[^|]|%19[^|]|%14[^\r\n]",
+        int result = sscanf(line, "%8[^|]|%49[^|]|%49[^|]|%10[^|]|%19[^|]|%19[^\r\n]",
                             appts[total].appointmentID,     appts[total].patientName,
                             appts[total].doctorName,        appts[total].date,
                             appts[total].type,              appts[total].status);

@@ -1,8 +1,10 @@
+#ifndef ADDDOCTOR_H
+#define ADDDOCTOR_H
+
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
-#include "DoctorManagement.h"
 #include "DoctorFileHandling.h"
 
 /* ===========================================================
@@ -42,3 +44,5 @@ static inline void addDoctor(Doctor doctors[], int *count) {
     saveDoctors(doctors, *count);
     printf("Doctor '%s' added (ID: %d).\n", d.name, d.id);
 }
+
+#endif /* ADDDOCTOR_H */

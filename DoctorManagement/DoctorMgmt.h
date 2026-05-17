@@ -11,26 +11,32 @@
  * ============================================================
  */
 
-#ifndef DOCTORMANAGEMENT_H
-#define DOCTORMANAGEMENT_H
+#ifndef DOCTORMGMT_H
+#define DOCTORMGMT_H
 
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
 
-#include "AddDoctor.h"
-
 /* ---- Constants ---- */
 #define MAX_DOCTORS  10
-#define DOCTOR_FILE  "doctors.txt"
+#define DOCTOR_FILE  "records/doctors.txt"
 
-/* ---- Doctor struct (Unit 8: Structures) ---- */
+/* ---- Doctor struct ---- */
 typedef struct {
     int  id;
     char name[50];
     char specialty[50];
     int  isAvailable;   /* 1 = available, 0 = unavailable */
 } Doctor;
+
+/* ---- Subheaders ---- */
+#include "DoctorFileHandling.h"
+#include "AddDoctor.h"
+#include "ViewDoctor.h"
+#include "ViewDoctorSchedules.h"
+#include "EditDoctor.h"
+#include "DeleteDoctor.h"
 
 /* ===========================================================
    SEED DEFAULT DOCTORS  (called from main if file is empty)
@@ -77,7 +83,8 @@ static inline void DoctorManagement(Doctor doctors[], int *count) {
         printf("1. View Doctors\n");
         printf("2. View Doctor Schedule\n");
         printf("3. Add Doctor\n");
-        printf("4. Delete Doctor\n");
+        printf("4. Edit Doctor\n");
+        printf("5. Delete Doctor\n");
         printf("0. Back to Main Menu\n");
         printf("Select option: ");
 
@@ -92,11 +99,12 @@ static inline void DoctorManagement(Doctor doctors[], int *count) {
             case 1: viewDoctors(doctors, *count);        break;
             case 2: viewDoctorSchedule(doctors, *count); break;
             case 3: addDoctor(doctors, count);           break;
-            case 4: deleteDoctor(doctors, count);        break;
+            case 4: editDoctor(doctors, *count);        break;
+            case 5: deleteDoctor(doctors, count);        break;
             case 0: return;
             default: printf("Invalid option.\n");
         }
     }
 }
 
-#endif /* DOCTORMANAGEMENT_H */
+#endif /* DOCTORMGMT_H */

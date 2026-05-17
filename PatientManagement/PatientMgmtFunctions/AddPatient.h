@@ -5,7 +5,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>   // Required for isalpha and isdigit
-#include <strings.h> // Required for strcasecmp
+
+#ifdef _WIN32
+#define strcasecmp _stricmp
+#endif
 
 typedef struct {
     char fname[50];  // Split name to match your logic
@@ -73,7 +76,7 @@ static inline void AddPatients() {
     }
 
     // --- DUPLICATE CHECK ---
-    FILE *check_fp = fopen("patients.txt", "r");
+    FILE *check_fp = fopen("records/patients.txt", "r");
     if (check_fp != NULL) {
         char line[256], file_fname[50], file_lname[50];
         int found = 0;
@@ -97,8 +100,11 @@ static inline void AddPatients() {
     // --- AGE & SEX ---
     printf("Please enter the patient's age: ");
     if (scanf("%d", &p.age) != 1 || p.age <= 0) {
-        printf("Invalid age.\n"); return;
-    }
+        printf("Invalid age.\n");
+        while (getchar() != '\n');
+        return;
+    } 
+    while (getchar() != '\n'); // Clean buffer
 
     // Initialize and check senior status
     p.is_senior = 0; 
@@ -107,8 +113,13 @@ static inline void AddPatients() {
         p.is_senior = 1;
     }
 
+    while (1) {
     printf("Patient's sex at birth (1. Male, 2. Female): ");
-    scanf("%d", &p.sex_at_birth);
+    if (scanf("%d", &p.sex_at_birth) == 1 &&
+        (p.sex_at_birth == 1 || p.sex_at_birth == 2)) break;
+    printf("Invalid input. Enter 1 or 2.\n");
+    while (getchar() != '\n');
+    } 
     while (getchar() != '\n'); // Clean buffer
 
     // --- CONTACT ---
@@ -138,7 +149,7 @@ static inline void AddPatients() {
     p.medical_history[strcspn(p.medical_history, "\n")] = '\0';
 
     // --- SAVE ---
-    FILE *fp = fopen("patients.txt", "a");
+    FILE *fp = fopen("records/patients.txt", "a");
     if (fp != NULL) {
         fprintf(fp, "Name: %s %s\nAge: %d\nSenior Citizen: %s\nSex: %s\nContact: %s\n"
                     "Address: %s\nHeight: %.2f cm\nWeight: %.2f kg\n"

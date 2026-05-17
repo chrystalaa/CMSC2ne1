@@ -4,8 +4,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <strings.h>
 #include "AddPatient.h"  // Reuse Patient struct and helpers
+
+#ifdef _WIN32
+#define strcasecmp _stricmp
+#endif
 
 #define MAX_PATIENTS 100
 
@@ -17,7 +20,7 @@ static inline int parse_patient(FILE *fp, Patient *p) {
     while (fgets(line, sizeof(line), fp)) {
         line[strcspn(line, "\n")] = '\0';
         
-        if (strlen(line) == 0) {
+        if (line[0] == '\0' || line[0] == '\r'){
             // Empty line = end of record
             return (fields_read > 0) ? 1 : 0;
         }
@@ -56,7 +59,7 @@ static inline int parse_patient(FILE *fp, Patient *p) {
 
 /* Write all patients back to file */
 static inline void save_all_patients(Patient patients[], int count) {
-    FILE *fp = fopen("patients.txt", "w");
+    FILE *fp = fopen("records/patients.txt", "w");
     if (!fp) {
         printf("Error: Could not open file for writing.\n");
         return;
@@ -101,7 +104,7 @@ static inline void EditPatient() {
     printf("You are now in the Edit Patient section.\n\n");
     
     // Load all patients from file
-    FILE *fp = fopen("patients.txt", "r");
+    FILE *fp = fopen("records/patients.txt", "r");
     if (!fp) {
         printf("No patient records found.\n");
         return;
@@ -203,14 +206,24 @@ static inline void EditPatient() {
                 break;
                 
             case 3: // Senior (auto-calculated, but allow override)
-                printf("Is patient a senior citizen? (1=Yes, 0=No): ");
-                scanf("%d", &p->is_senior);
+                while (1) {
+                    printf("Is patient a senior citizen? (1=Yes, 0=No): ");
+                    if (scanf("%d", &p->is_senior) == 1 &&
+                        (p->is_senior == 0 || p->is_senior == 1)) break;
+                    printf("Invalid input. Enter 0 or 1.\n");
+                    while (getchar() != '\n');
+                }
                 while (getchar() != '\n');
                 break;
                 
             case 4: // Sex
-                printf("Enter sex at birth (1=Male, 2=Female): ");
-                scanf("%d", &p->sex_at_birth);
+                while (1) {
+                    printf("Enter sex at birth (1=Male, 2=Female): ");
+                    if (scanf("%d", &p->sex_at_birth) == 1 &&
+                        (p->sex_at_birth == 1 || p->sex_at_birth == 2)) break;
+                    printf("Invalid input. Enter 1 or 2.\n");
+                    while (getchar() != '\n');
+                }
                 while (getchar() != '\n');
                 break;
                 
@@ -232,14 +245,22 @@ static inline void EditPatient() {
                 break;
                 
             case 7: // Height
-                printf("Enter new height (cm): ");
-                scanf("%f", &p->height);
+                while (1) {
+                    printf("Enter new height (cm): ");
+                    if (scanf("%f", &p->height) == 1 && p->height > 0) break;
+                    printf("Invalid height.\n");
+                    while (getchar() != '\n');
+                }
                 while (getchar() != '\n');
                 break;
                 
             case 8: // Weight
-                printf("Enter new weight (kg): ");
-                scanf("%f", &p->weight);
+                while (1) {
+                    printf("Enter new weight (kg): ");
+                    if (scanf("%f", &p->weight) == 1 && p->weight > 0) break;
+                    printf("Invalid weight.\n");
+                    while (getchar() != '\n');
+                }
                 while (getchar() != '\n');
                 break;
                 
@@ -259,4 +280,4 @@ static inline void EditPatient() {
     printf("\nPatient record updated successfully.\n");
 }
 
-#endif
+#endif /* EDITPATIENT_H */
