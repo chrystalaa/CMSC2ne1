@@ -15,10 +15,10 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "DoctorManagement.h"
-#include "PatientMgmt.h"
+#include "DoctorManagement/DoctorManagement.h"
+#include "PatientManagement/PatientManagement.h"
 #include "AppointmentManagement/core/AppointmentMgmt.h"
-#include "QueueMgmt.h"
+#include "QueueManagement/QueueMgmt.h"
 
 /* Clear the terminal (cross-platform) */
 static void clearScreen(void) {
